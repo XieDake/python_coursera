@@ -1,0 +1,10 @@
+注意这个库是LogisticRegression的之前进行数据处理的库，包含的功能有
+1：显示feature_scaling之前的数据点的显示，，，view_before()
+2：进行feature_scaling的 Logistic_scaling()
+3：显示feature_scaling之后的数据点的显示，，，view_after_scaling()
+4：当然还有一些支持基本功能的几个method（），比如：
+进行数据点按lable划分的method，devide（），
+还有loading数据文件的库，coursera_loaddata_numpy
+
+
+当然还有其他一些功能，，开来有必要写一个自己的功能集合了，，，总结一些那些是常用的。
