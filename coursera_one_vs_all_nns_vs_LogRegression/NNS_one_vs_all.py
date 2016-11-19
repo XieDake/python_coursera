@@ -28,7 +28,7 @@ def Logistic_one_vs_all(Xfilename,yfilename):
     classifier.fit(x_traing,y_traing)
     #predicting!
     y_predict=classifier.predict(x_testing)
-    #outputing
+    #outputing!
     print("the actual real result is: ")
     print y_testing
     print("the predicting result is: ")
