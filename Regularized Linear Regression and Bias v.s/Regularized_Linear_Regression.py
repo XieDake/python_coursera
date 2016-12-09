@@ -23,10 +23,12 @@ class RegularizationLR:
         my=train_ylable
         mypredict=train_predic
         merror=my-mypredict
+        m=np.shape(merror)
+        M=(m[0]+1)*2
         output=0
         for item in merror:
-            output+=item*item
-        return output
+            output+=(item*item)
+        return output/M
     #traing viewing!
     def lrTraining(self):
         f=self.traingSet
@@ -41,6 +43,8 @@ class RegularizationLR:
         LR.fit(X,y)
         print("the weight of training is: ")
         print(LR.coef_)
+        print ("the error of traing!")
+        print (self.modelError(y,LR.predict(X)))
         #ploting
         #scatter ploting!
         plt.scatter(X[:,1:],y,color='black')
@@ -62,8 +66,8 @@ class RegularizationLR:
             LR.fit(trainSubSet[:,0:-1],trainSubSet[:,-1])
             print("the traing weight of this sunsets is: ")
             print(LR.coef_)
-            trainError.append((self.modelError(trainSubSet[:,-1],LR.predict(trainSubSet[:,0:-1])))/num)
-            valError.append(self.modelError(valSubSet[:,-1],LR.predict(valSubSet[:,0:-1]))/num)
+            trainError.append((self.modelError(trainSubSet[:,-1],LR.predict(trainSubSet[:,0:-1]))))
+            valError.append(self.modelError(valSubSet[:,-1],LR.predict(valSubSet[:,0:-1])))
         #learning curve ploting!
         plt.plot(size,trainError,color='red')#,lable='TrainError'
         plt.plot(size,valError,color='blue')#lable='ValidationError')
