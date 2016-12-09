@@ -3,36 +3,48 @@ __author__ = 'John'
 #current implementation of linear regression is trying to t a 2-dimensional ,
 #regularization will not be incredibly helpful for a  of such low dimension.
 #import
+import numpy as np
 from sklearn import linear_model
 import data_processing as Q1
 import matplotlib.pyplot as plt
 class RegularizationLR:
-    a=Q1.DataProcessing()
-    traingSet=a.standardForm(a.standardForm()[0])
-    testSet=a.standardForm(a.standardForm()[1])
-    validationSet=a.standardForm(a.standardForm()[2])
+    a=''
+    traingSet=''
+    testSet=''
+    validationSet=''
+    def __init__(self):
+        self.a=Q1.DataProcessing()
+        #sklearn maybe not need add 1 to the first column!
+        self.traingSet=self.a.standardForm()[0]
+        self.testSet=self.a.standardForm()[1]
+        self.validationSet=self.a.standardForm()[2]
+    #end!
     def modelError(self,train_ylable,train_predic):
         my=train_ylable
         mypredict=train_predic
         merror=my-mypredict
         output=0
         for item in merror:
-            output+=merror*merror
-        #end!
+            output+=item*item
         return output
     #traing viewing!
     def lrTraining(self):
         f=self.traingSet
         x=f[:,0:-1]
         y=f[:,-1]
+        #the first column must all 1;test!
+        m,n=np.shape(f)
+        X=np.zeros([m,n])
+        X[:,0]=1.0
+        X[:,1:]=x
         LR=linear_model.LinearRegression()
-        LR.fit(x,y)
+        LR.fit(X,y)
         print("the weight of training is: ")
         print(LR.coef_)
         #ploting
         #scatter ploting!
-        plt.scatter(x,y,color='black')
-        plt.plot(x,LR.predict(x),color='blue')
+        plt.scatter(X[:,1:],y,color='black')
+        plt.plot(X[:,1:],LR.predict(X),color='blue')
         plt.show()
     #ending!
     #learning curve!diagnosing the algorithm underfit or overfit!
@@ -50,14 +62,15 @@ class RegularizationLR:
             LR.fit(trainSubSet[:,0:-1],trainSubSet[:,-1])
             print("the traing weight of this sunsets is: ")
             print(LR.coef_)
-            trainError.append(self.modelError(trainSubSet[:,-1],LR.predict(trainSubSet[:,0:-1])))
-            valError.append(self.modelError(valSubSet[:,-1],LR.predict(valSubSet[:,0:-1])))
+            trainError.append((self.modelError(trainSubSet[:,-1],LR.predict(trainSubSet[:,0:-1])))/num)
+            valError.append(self.modelError(valSubSet[:,-1],LR.predict(valSubSet[:,0:-1]))/num)
         #learning curve ploting!
-        plt.plot(size,trainError,color='red',lable='TrainError')
-        plt.plot(size,valError,color='blue',lale='ValidationError')
+        plt.plot(size,trainError,color='red')#,lable='TrainError'
+        plt.plot(size,valError,color='blue')#lable='ValidationError')
         plt.xlabel("size of traing set")
         plt.ylabel("error")
-        plt.legend(loc='upper right')
+        #plt.legend(loc='upper right')
+        plt.show()
     #end!
 
 

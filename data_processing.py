@@ -46,15 +46,15 @@ class DataProcessing:
         fyval=self.fyval
         m1=np.shape(fx)
         traingSet=np.zeros([m1[0],2])
-        traingSet[:,0]=fx[:]
+        traingSet[:,0]=fx
         traingSet[:,-1]=fy
         m2=np.shape(fxtest)
         testSet=np.zeros([m2[0],2])
-        testSet[:,0]=fxtest[:]
+        testSet[:,0]=fxtest
         testSet[:,-1]=fytest  #ilegal Cheating!
         m3=np.shape(fxval)
         validationSet=np.zeros([m3[0],2])
-        validationSet[:,0]=fxval[:]
+        validationSet[:,0]=fxval
         validationSet[:,-1]=fyval
         return traingSet,testSet,validationSet
     #data viewing
@@ -71,16 +71,16 @@ class DataProcessing:
     def standard(self,f):
         m,n=np.shape(f)
         fNew=np.zeros([m,n+1])
-        fNew[:,0:-1]=f
-        fNew[:,-1]=1.0
+        fNew[:,0] = 1.0
+        fNew[:,1:]=f
         return fNew
     def creatSubdataSet(self,num,f):
         #num>=2
         m,n=np.shape(f)
         subDataSet=np.zeros([num,n])
         #random selecting!
-        for i in range(num):#这就是产生的子集的数目
-            index=random.randint(0,m-1)#随机选取
+        for i in range(num):#
+            index=random.randint(0,m-1)
             subDataSet[i,:]=f[index,:]
         return subDataSet
 
